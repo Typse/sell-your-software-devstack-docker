@@ -9,3 +9,13 @@ backup/
 # node/vendor (falls später genutzt)
 node_modules/
 vendor/
+# cache files
+__pycache__/
+*.pyc
+# Python virutal environments
+venv/
+.env/
+
+# Docker
+*.pid
+*.log
