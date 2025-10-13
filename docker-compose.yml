@@ -13,10 +13,10 @@ services:
         if (!defined('WP_HOME'))    define('WP_HOME', getenv('WP_HOME') ?: 'http://localhost');
         if (!defined('WP_SITEURL')) define('WP_SITEURL', getenv('WP_SITEURL') ?: 'http://localhost');
     volumes:
-      - wp_data:/var/www/html
-      - ./wp-content/uploads:/var/www/html/wp-content/uploads
-      - ./wp-content/themes/mein-theme:/var/www/html/wp-content/themes/sys-themes
-      - ./wp-content/plugins/mein-plugin:/var/www/html/wp-content/plugins/sys-plugins
+      - wp_data:/var/www/html:z
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads:z
+      - ./wp-content/themes/mein-theme:/var/www/html/wp-content/themes/sys-themes:z
+      - ./wp-content/plugins/mein-plugin:/var/www/html/wp-content/plugins/sys-plugins:z
     networks: [backend]
 
   api:
@@ -24,7 +24,7 @@ services:
       context: ./api
     command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
     volumes:
-      - ./api:/app
+      - ./api:/app:z
     networks: [backend]
 
   adminer:
@@ -63,7 +63,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro,z
     networks: [backend]
 
 networks:
