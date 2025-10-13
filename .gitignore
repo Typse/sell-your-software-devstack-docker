@@ -1,0 +1,11 @@
+# env & creds
+.env
+# OS/Editor
+.DS_Store
+.vscode/
+.idea/
+# dumps/backups
+backup/
+# node/vendor (falls später genutzt)
+node_modules/
+vendor/

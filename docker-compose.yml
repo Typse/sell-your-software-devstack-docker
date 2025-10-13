@@ -1,0 +1,73 @@
+services:
+  wordpress:
+    image: wordpress:php8.2-apache
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WP_ENVIRONMENT_TYPE: ${WP_ENVIRONMENT_TYPE}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('FS_METHOD', 'direct');
+        // Lokale URL erzwingen (nicht aus DB lesen)
+        if (!defined('WP_HOME'))    define('WP_HOME', getenv('WP_HOME') ?: 'http://localhost');
+        if (!defined('WP_SITEURL')) define('WP_SITEURL', getenv('WP_SITEURL') ?: 'http://localhost');
+    volumes:
+      - wp_data:/var/www/html
+      - ./wp-content/uploads:/var/www/html/wp-content/uploads
+      - ./wp-content/themes/mein-theme:/var/www/html/wp-content/themes/sys-themes
+      - ./wp-content/plugins/mein-plugin:/var/www/html/wp-content/plugins/sys-plugins
+    networks: [backend]
+
+  api:
+    build:
+      context: ./api
+    command: uvicorn app:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./api:/app
+    networks: [backend]
+
+  adminer:
+    image: adminer
+    networks: [backend]
+    # Hinweis: In der Adminer-UI 
+    # Daten folgend eingeben:
+    # System: MySQL
+    # Server: db (Name des DB-Containers)
+    # Benutzer, Passwort, Datenbank:
+    # (jeweils aus der .env)
+
+  mailhog:
+    image: mailhog/mailhog
+    networks: [backend]
+
+  # WP-CLI: on-demand nutzen (connectet zur DB)
+  wpcli:
+    image: wordpress:cli
+    user: "33:33"
+    working_dir: /var/www/html
+    volumes:
+      - wp_data:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+    networks: [backend]
+
+  nginx:
+    image: nginx:1.27
+    depends_on:
+      - wordpress
+      - api
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks: [backend]
+
+networks:
+  backend:
+
+volumes:
+  wp_data:
