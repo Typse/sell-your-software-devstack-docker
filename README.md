@@ -8,6 +8,7 @@
 docker compose up -d --build
 
 # WordPress: http://localhost/
+# WordPress Login: http://localhost/wp-login.php
 # Adminer:  http://localhost/db/  (Server: steht in der env)
 # API:      http://localhost/api/health
 # Mailhog:  http://localhost/mail/
