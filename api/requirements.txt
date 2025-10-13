@@ -1,2 +1,14 @@
 fastapi
 uvicorn[standard]
+annotated-types
+anyio
+click
+colorama
+h11
+idna
+pydantic
+pydantic_core
+sniffio
+starlette
+typing-inspection
+typing_extensions
