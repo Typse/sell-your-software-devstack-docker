@@ -15,6 +15,9 @@ docker compose up -d --build
 Falls der Installer erscheint hilft
 docker run --rm mariadb:11 mariadb -h 5.9.67.189 -P 13306 -u sellyoursystem -p sellyoursystem123 -e "SELECT 1" sys-wp
 
+Falls Rechte zu content fehlschlägt
+docker compose exec wordpress chown -R www-data:www-data /var/www/html/wp-content
+
 # Nützliche Commands
 docker compose ps
 docker compose logs -f wordpress
