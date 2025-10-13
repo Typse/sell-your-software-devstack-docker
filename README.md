@@ -1,4 +1,4 @@
-# Dev Stack (WordPress + zentrale MariaDB + FastAPI + Nginx)
+# Dev Stack (WordPress + remote MariaDB + FastAPI + Nginx)
 
 ## Quickstart
 ```bash
