@@ -8,7 +8,7 @@ async def test_connection():
             r = await conn.execute(text("SELECT 1"))
             print("Connection test successful:", r.scalar_one())
     except Exception as e:
-        print("Connection test failed:", type(e).__name__, e
+        print("Connection test failed:", type(e).__name__, e)
         
-if __name__ == "__main__":)
-    and asyncio.run(test_connection())
+if __name__ == "__main__":
+    asyncio.run(test_connection())

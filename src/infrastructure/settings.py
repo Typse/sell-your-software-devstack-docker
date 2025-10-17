@@ -7,8 +7,6 @@ from dotenv import load_dotenv
 load_dotenv()  # lade .env datei im projekt root
 
 class Settings(BaseSettings):
-    # Lädt optional Variablen aus einer .env im Projektroot
-    # model_config = ConfigDict(env_file=str(ENV_FILE), env_file_encoding="utf-8", extra="ignore")
 
     APP_ENV: str = "development"  # or "production"
     WORDPRESS_DB_HOST: str = os.getenv('WORDPRESS_DB_HOST')
