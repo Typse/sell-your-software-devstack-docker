@@ -1,0 +1,22 @@
+.nav {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e7e7e7;
+  background-color: #f3f3f3;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.navList a {
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navList a:hover {
+  color: teal;
+}
