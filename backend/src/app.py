@@ -1,10 +1,12 @@
+from typing import List
+
+import stripe
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
 from datamodel.CheckoutData import CheckoutProduct, DisplayProduct
-from typing import List
-import stripe
-import json
+
 
 stripe.api_key = ''
 YOUR_DOMAIN = 'http://localhost:5173'
@@ -19,8 +21,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/products", description="Get all products that are listed in the stripe product dashboard")
+@app.get(
+        "/products",
+        description="Get all products that are listed in the stripe product dashboard"
+)
 async def get_products() -> List[DisplayProduct]:
+    """_summary_
+
+    Returns:
+        List[DisplayProduct]: _description_
+    """
     products = stripe.Product.list()
     prices = stripe.Price.list()
 
@@ -37,16 +47,28 @@ async def get_products() -> List[DisplayProduct]:
             product_price = price.unit_amount / 100
         ))
 
-    return result 
+    return result
 
 
-@app.post("/create-checkout-session", description="Post a list of products the customer wants to buy.")
+@app.post(
+        "/create-checkout-session",
+        description="Post a list of products the customer wants to buy."
+)
 async def create_checkout_session(checkout_info: List[CheckoutProduct]):
+    """_summary_
+
+    Args:
+        checkout_info (List[CheckoutProduct]): _description_
+
+    Returns:
+        _type_: _description_
+    """
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
-                    # Provide the exact Price ID (for example, price_1234) of the product you want to sell
+                    # Provide the exact Price ID (for example, price_1234)
+                    # of the product you want to sell
                     'price': 'price_1SJTgF4OiZoMUwCEZZNAlhjq',
                     'quantity': 1,
                 },
