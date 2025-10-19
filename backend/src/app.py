@@ -5,11 +5,12 @@ import stripe
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import RedirectResponse
-from datamodel.CheckoutData import CheckoutProduct, DisplayProduct
+from src.datamodel.checkout_data import CheckoutProduct, DisplayProduct
 
+from src.settings import settings
 
-stripe.api_key = ''
-YOUR_DOMAIN = 'http://localhost:5173'
+stripe.api_key = f"{settings.STRIPE_API_KEY}"
+YOUR_DOMAIN = "http://localhost:5173"
 
 app = FastAPI()
 

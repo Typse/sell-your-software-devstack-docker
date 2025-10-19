@@ -1,12 +1,18 @@
 from sqlalchemy import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import text
-import settings
+from settings import settings
 
 # uber settings dann die env und die werte pasrsen
 
 engine = create_async_engine(
-    # "mariadb+aiomysql://sellyoursystem:PASSWORD@localhost:3306/sys-db", echo=True, pool_pre_ping=True
+    f"mariadb+aiomysql://" \
+    "{settings.DATABASE_USER}:" \
+    "{settings.DATABASE_PASSWORD}@" \
+    "{settings.DATABASE_HOST}/" \
+    "{settings.DATABASE_NAME}", 
+    echo=True, 
+    pool_pre_ping=True
 )
 
 AsyncSessionLocal = async_sessionmaker(
