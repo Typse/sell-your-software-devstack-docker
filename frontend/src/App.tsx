@@ -5,6 +5,7 @@ import "./App.css"
 
 import Admin from "./pages/Admin";
 import Shop from "./pages/Shop";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/shop" element={<Shop />} />
+                <Route path="/shop/:productId" element={<ProductDetails />} />
               <Route path="/admin" element={<Admin />} />
             </Routes>
         </BrowserRouter>
